@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>朗读桥 dsh-aloud</title>
+    <style>
+      :root { color-scheme: light dark; }
+      body {
+        width: 320px; margin: 0; padding: 12px 14px;
+        font: 13px/1.5 system-ui, "Microsoft YaHei", sans-serif;
+      }
+      h1 { font-size: 14px; margin: 0 0 8px; display: flex; align-items: center; gap: 6px; }
+      .dot { width: 8px; height: 8px; border-radius: 50%; background: #bbb; }
+      .dot.on { background: #2ecc71; }
+      .dot.off { background: #e74c3c; }
+      .row { display: flex; align-items: center; justify-content: space-between; margin: 6px 0; gap: 8px; }
+      label { flex: 1; opacity: .85; }
+      input[type="text"], input[type="number"] {
+        flex: 1.4; padding: 3px 6px; border: 1px solid rgba(128,128,128,.45);
+        border-radius: 5px; background: transparent; color: inherit; font: inherit;
+      }
+      button {
+        padding: 4px 9px; border-radius: 6px; border: 1px solid rgba(128,128,128,.45);
+        background: rgba(128,128,128,.12); color: inherit; cursor: pointer; font: inherit;
+      }
+      button:hover { background: rgba(128,128,128,.22); }
+      button.primary { border-color: #2ecc71; }
+      .status { font-size: 12px; opacity: .75; margin: 8px 0 4px; min-height: 16px; }
+      .err { color: #e74c3c; font-size: 12px; word-break: break-all; }
+      ul { list-style: none; margin: 6px 0 0; padding: 0; }
+      li { font-size: 12px; opacity: .8; border-top: 1px solid rgba(128,128,128,.2); padding: 4px 0; }
+      .hint { font-size: 11px; opacity: .6; margin-top: 8px; }
+      .buttons { display: flex; gap: 6px; margin-top: 10px; }
+      .buttons button { flex: 1; }
+    </style>
+  </head>
+  <body>
+    <h1><span id="dot" class="dot"></span> 朗读桥</h1>
+
+    <div class="row">
+      <label for="enabled">自动朗读</label>
+      <input type="checkbox" id="enabled" />
+    </div>
+    <div class="row">
+      <label for="baseUrl">DSH 地址</label>
+      <input type="text" id="baseUrl" placeholder="http://127.0.0.1:43120" />
+    </div>
+    <div class="row">
+      <label for="rate">语速</label>
+      <input type="number" id="rate" min="0.5" max="2" step="0.1" />
+    </div>
+    <div class="row">
+      <label for="pollSeconds">轮询（秒）</label>
+      <input type="number" id="pollSeconds" min="1" max="120" step="1" />
+    </div>
+
+    <div class="status" id="status">正在连接宿主…</div>
+    <div class="err" id="err"></div>
+
+    <div class="buttons">
+      <button id="save" class="primary">保存</button>
+      <button id="test">试念一句</button>
+    </div>
+    <div class="buttons">
+      <button id="poll">立即取一条</button>
+      <button id="stop">停止</button>
+    </div>
+
+    <ul id="recent"></ul>
+    <div class="hint">宿主端口以 DSH 启动日志里的 <code>dsh web: http://127.0.0.1:端口</code> 为准。</div>
+
+    <script src="popup.js"></script>
+  </body>
+</html>

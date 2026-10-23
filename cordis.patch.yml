@@ -1,0 +1,15 @@
+# dsh-aloud 的加载行。
+#
+# 这一行把插件插进 profile 的 loader；`config:` 整块可以省略（全部有默认值）。
+# 想改配置就取消注释并改值——`patchReload: live` 的 profile 里改完即时生效。
+- insert:
+    - id: aloud
+      name: 'dsh-aloud'
+      # config:
+      #   enabled: true
+      #   prefix: /dsh-aloud
+      #   maxChars: 600
+      #   maxItems: 40
+      #   watchLogs: true
+      #   sessionsDir: ''       # 留空 = $DSH_HOME/sessions
+      #   pollMs: 3000

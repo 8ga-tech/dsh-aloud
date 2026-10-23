@@ -1,0 +1,47 @@
+{
+  "name": "dsh-aloud",
+  "version": "0.1.0",
+  "description": "朗读桥（dsh-aloud）：把 DSH 会话里的回复排成队列，由你自己浏览器里的扩展念出声。宿主插件 + 浏览器扩展两件套。",
+  "license": "MIT",
+  "type": "module",
+  "keywords": [
+    "deepseek-harness",
+    "dsh",
+    "dsh-plugin",
+    "tts",
+    "read-aloud",
+    "speech"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/8ga-tech/dsh-aloud.git"
+  },
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./queue": "./lib/queue.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "extension",
+    "cordis.patch.yml",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --test tests/queue.test.mjs tests/watch.test.mjs"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.4"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "朗读桥 dsh-aloud",
+  "version": "0.1.0",
+  "description": "把 DSH 会话里的回复念出声：本地队列 + 浏览器语音，声音从你自己的电脑出来。",
+  "permissions": ["tts", "storage", "alarms"],
+  "host_permissions": [
+    "http://127.0.0.1/*",
+    "http://localhost/*"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "朗读桥 dsh-aloud"
+  }
+}
