@@ -1,15 +1,12 @@
-# dsh-aloud 的加载行。
+# dsh-aloud 的加载行（这个文件属于包本身，随 dsh.profile.bundles 自动生效，不要手改）。
 #
-# 这一行把插件插进 profile 的 loader；`config:` 整块可以省略（全部有默认值）。
-# 想改配置就取消注释并改值——`patchReload: live` 的 profile 里改完即时生效。
+# 安装：dsh plugin --profile <名字> add <本包路径>
+#       → 包名被写进 profile 的 dsh.profile.bundles → 本文件自动插入下面这一行。
+# 改配置：不要改这里，去 **profile 的** cordis.patch.yml 加一条覆盖行：
+#   - id: aloud
+#     name: 'dsh-aloud'
+#     config:
+#       maxChars: 800
 - insert:
     - id: aloud
       name: 'dsh-aloud'
-      # config:
-      #   enabled: true
-      #   prefix: /dsh-aloud
-      #   maxChars: 600
-      #   maxItems: 40
-      #   watchLogs: true
-      #   sessionsDir: ''       # 留空 = $DSH_HOME/sessions
-      #   pollMs: 3000

@@ -37,7 +37,8 @@
     "test": "node --test tests/queue.test.mjs tests/watch.test.mjs"
   },
   "peerDependencies": {
-    "@deepseek-ai/cordis": "~4.0.4"
+    "@deepseek-ai/cordis": "~4.0.4",
+    "@deepseek-ai/schemastery": "*"
   },
   "dsh": {
     "bundle": {

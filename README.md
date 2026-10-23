@@ -41,16 +41,24 @@ dsh plugin --profile <你的profile> add C:\src\dsh-aloud
 dsh plugin --profile <你的profile> add github:8ga-tech/dsh-aloud
 ```
 
-然后在 **该 profile 的 `cordis.patch.yml`** 里加一行（`dsh plugin add` 只装包，不会自动插行）：
+装完**不需要再手写 `insert` 行** —— 这一点是实机验证时发现的：
+
+> `dsh plugin add` 除了装包，还会把包名写进 profile 的 `dsh.profile.bundles`；
+> 而被列为 bundle 的包，**其自带的 `cordis.patch.yml` 会自动插入这一行**。
+> 我第一次验证时手写了一模一样的 `- insert:`，结果会撞成重复 id。
+
+要改配置，在 profile 的 `cordis.patch.yml` 里加一条**配置覆盖行**即可：
 
 ```yaml
-- insert:
-    - id: aloud
-      name: 'dsh-aloud'
+- id: aloud
+  name: 'dsh-aloud'
+  config:
+    maxChars: 800
+    maxItems: 60
 ```
 
-> 桌面版的 profile 由 Electron 独占，CLI 不能改；请用 GUI 的插件管理页安装，再手动加上面这行到
-> `C:\Users\<你>\.dsh\profiles\desktop\cordis.patch.yml`。
+> 桌面版的 profile 由 Electron 独占，CLI 不能改；请用 GUI 的插件管理页安装，
+> 需要改配置时再手动往 `C:\Users\<你>\.dsh\profiles\desktop\cordis.patch.yml` 加上面的覆盖行。
 
 重启 DSH（或 profile 开了 `patchReload: live` 就等它热加载）。启动日志里应出现：
 
