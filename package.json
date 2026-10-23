@@ -26,6 +26,7 @@
   "files": [
     "lib",
     "extension",
+    "tests",
     "cordis.patch.yml",
     "README.md",
     "LICENSE"
@@ -34,7 +35,8 @@
     "node": ">=22"
   },
   "scripts": {
-    "test": "node --test tests/queue.test.mjs tests/watch.test.mjs"
+    "test": "node --test tests/queue.test.mjs tests/watch.test.mjs",
+    "test:e2e": "node tests/extension-harness.mjs"
   },
   "peerDependencies": {
     "@deepseek-ai/cordis": "~4.0.4",

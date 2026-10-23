@@ -151,8 +151,24 @@ curl http://127.0.0.1:43120/dsh-aloud/next
 ## 开发
 
 ```sh
-node --test tests/queue.test.mjs tests/watch.test.mjs
+npm test          # 19 个单测：队列/文本清洗 + 会话日志解析
+npm run test:e2e  # 扩展侧实机测试台（需要一个装好本插件的 DSH 在跑）
 ```
+
+`tests/extension-harness.mjs` 会用一套**仿造的 `chrome.*` API** 把 `extension/background.js`
+真跑起来，打到运行中的 DSH，验证：
+
+```
+PASS  background.js 载入并注册了消息监听
+PASS  扩展调通了宿主 /next
+PASS  调用了 chrome.tts.speak
+PASS  念的是洗过 markdown 的文本
+PASS  回执后宿主队列已清空
+PASS  宿主不可达时不抛错
+PASS  并在 lastError 里留下可读原因
+```
+
+唯一测不到的是「真的有声音出来」——那需要真实浏览器的扬声器。
 
 结构：
 
@@ -161,7 +177,23 @@ lib/queue.js   队列与文本清洗（纯函数，可直接测）
 lib/watch.js   会话日志监听（兜底来源）
 lib/index.js   cordis 插件：session/event 订阅 + HTTP 接口
 extension/     MV3 浏览器扩展（background + popup）
+tests/         单测 + 扩展实机测试台
 ```
+
+## 实测记录
+
+在 DSH 0.2.0-rc.2 上做过一次完整的实机验证（一次性 profile，headless 启动）：
+
+| 检查 | 结果 |
+|---|---|
+| 插件被 loader 载入、路由注册 | `GET /dsh-aloud/health` → `{"ok":true,"plugin":"dsh-aloud",...}` |
+| 中文往返 + markdown 清洗 | 投喂 `**你好**，…` → 取回 `你好，…`（20 字，星号已去） |
+| 未知路由 | `GET /dsh-aloud/nope` → 404 |
+| 扩展后台完整链路 | 7/7 通过（见上） |
+
+**装法上的一个坑（实测得出）**：`dsh plugin add` 除了装包，还会把包名写进 profile 的
+`dsh.profile.bundles`；被列为 bundle 的包其自带的 `cordis.patch.yml` **会自动插入**，
+所以**不要再手写 `- insert:`**，否则会撞成重复 id。要改配置就加「配置覆盖行」。
 
 ## 许可
 
